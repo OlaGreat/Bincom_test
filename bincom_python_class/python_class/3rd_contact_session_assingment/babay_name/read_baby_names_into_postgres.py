@@ -18,11 +18,19 @@ def create_Table():
     conn.commit()
     cursor.close()
 
+def insert_into_table():
+    conn = connect_db()
+    cursor = conn.cursor()
+    script = '''INSERT INTO baby_name(first_name, last_name)
+                VALUES(%s, %s)
+            '''
+    with open("baby_names.txt") as file:
+        for names in file:
+            first_name, last_name = names.strip().split(' ')
+            cursor.execute(script, (first_name, last_name))
+    conn.commit()
+    cursor.close()
 
-# create_Table()
-    
-with open("baby_names.txt") as file:
-    for names in file:
-       for n in names.split():
-        print(n)
 
+insert_into_table()
+            
